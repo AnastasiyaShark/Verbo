@@ -7,6 +7,7 @@ create table users
     email                varchar not null,
     native_language_id   int,
     learning_language_id int
+--     learning_language2_id int
 );
 comment on table users is 'пользователи';
 comment on column users.id is 'id в системе';
@@ -15,6 +16,7 @@ comment on column users.password is 'пароль пользователя';
 comment on column users.email is 'почта пользователя';
 comment on column users.native_language_id is 'родной язык пользователя';
 comment on column users.learning_language_id is 'изучаемый язык пользователя';
+-- comment on column users.learning_language2_id is ' second изучаемый язык пользователя';
 
 
 create sequence language_seq;
@@ -63,9 +65,9 @@ create sequence english_verb_seq;
 create table english_verbs
 (
     id              int not null primary key default nextval('english_verb_seq'),
-    imperative      varchar,
-    infinitive      varchar,
-    presens         varchar,
+--     imperative      varchar,
+    base_form       varchar,
+    present_tense   varchar,
     past            varchar,
     past_participle varchar,
     picture_id      int,
@@ -74,9 +76,9 @@ create table english_verbs
 );
 comment on table english_verbs is 'английский глагол';
 comment on column english_verbs.id is 'id в системе';
-comment on column english_verbs.imperative is 'форма императива';
-comment on column english_verbs.infinitive is 'форма инфинитива';
-comment on column english_verbs.presens is 'форма настоящего времени';
+-- comment on column english_verbs.imperative is 'форма императива';
+comment on column english_verbs.base_form is 'базовая форма глагола';
+comment on column english_verbs.present_tense is 'форма настоящего времени';
 comment on column english_verbs.past is 'форма прошедшего времени (V2)';
 comment on column english_verbs.past_participle is 'форма прошедшего времени (V3)';
 comment on column english_verbs.picture_id is 'id изображения';
