@@ -1,10 +1,8 @@
-package com.shark.App.model;
+package com.shark.App.model.SwedishParticleVerb;
 
 import com.shark.App.model.EnglishParticleVerb.EnglishParticleVerb;
 import com.shark.App.model.EnglishVerb.EnglishVerb;
-import com.shark.App.model.SwedishParticleVerb.SwedishParticleVerb;
-import com.shark.App.model.SwedishVerb.SwedishVerb;
-import com.shark.App.model.User.User;
+import com.shark.App.model.RussianVerb;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,24 +16,17 @@ import javax.persistence.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @ToString
-@Table(name = "vocabularies")
-public class Vocabulary {
+@Table(name = "swedish_particle_verbs_translation")
+public class SwedishParticleVerbsTranslation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    @OneToOne
-    User user;
-    //many vocabulary can have one swedish verb
-    @ManyToOne
-    SwedishVerb swedishVerb;
     @ManyToOne
     SwedishParticleVerb swedishParticleVerb;
     @ManyToOne
     EnglishVerb englishVerb;
     @ManyToOne
-    EnglishParticleVerb englishParticleVerb;
-    //many word can have one status
+    RussianVerb russianVerb;
     @ManyToOne
-    VerbsStatus status;
-
+    EnglishParticleVerb englishParticleVerb;
 }

@@ -1,4 +1,4 @@
-package com.shark.App.model;
+package com.shark.App.model.Vocabulary;
 
 public enum Status {
     STUDIED,
