@@ -7,15 +7,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LoginForm {
+public class SigningRequest {
     private String login;
     private String password;
 
 
     @JsonCreator
-    public LoginForm(@JsonProperty("login") String login,
-                     @JsonProperty("password") String password) {
+    public SigningRequest(@JsonProperty("login") String login,
+                          @JsonProperty("password") String password) {
         this.login = login;
         this.password = password;
     }
+
 }

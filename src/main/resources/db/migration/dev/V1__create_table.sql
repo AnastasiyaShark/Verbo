@@ -290,3 +290,4 @@ comment on column pictures.patch is 'путь к изображению';
 
 
 
+

@@ -1,7 +1,9 @@
 package com.shark.App.controller;
 
+import com.shark.App.dto.UserDto;
 import com.shark.App.model.auth.JwtResponse;
-import com.shark.App.model.auth.LoginForm;
+import com.shark.App.model.auth.SigningRequest;
+import com.shark.App.model.auth.SignupRequest;
 import com.shark.App.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public JwtResponse authenticateUser(@RequestBody LoginForm loginRequest) {
+    public JwtResponse authenticateUser(@RequestBody SigningRequest loginRequest) {
         return authService.authenticateUser(loginRequest);
     }
 
@@ -27,5 +29,10 @@ public class AuthController {
     public ResponseEntity logout(HttpServletRequest request) {
         return authService.logout(request);
 
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity registerUser( @RequestBody UserDto userDto) {
+     return  authService.registerUser(userDto);
     }
 }
