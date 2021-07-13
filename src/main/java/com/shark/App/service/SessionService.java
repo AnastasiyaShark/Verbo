@@ -4,6 +4,7 @@ package com.shark.App.service;
 import com.shark.App.model.auth.Session;
 import com.shark.App.repository.SessionRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 
 import java.util.List;
@@ -15,20 +16,9 @@ public class SessionService {
 
     SessionRepository sessionRepository;
 
-
     public SessionService(SessionRepository sessionRepository) {
         this.sessionRepository = sessionRepository;
     }
-
-//    public boolean chekSession(HttpServletRequest request, String fileName) {
-//        String authHeader = request.getHeader("auth-token");
-//        String newAuthHeader = authHeader.replace("Bearer ", "");
-//        String userName = getLoginByToken(newAuthHeader);
-//
-//        FileI fileI = fileRepository.findFileIByGeneratedName(fileName);
-//        return userName.equals(fileI.getUsersLogin());
-//    }
-
 
     public String getLoginByToken(String token) {
         return sessionRepository.getLoginByToken(token);

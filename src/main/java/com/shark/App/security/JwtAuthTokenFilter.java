@@ -43,6 +43,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
             //проверяем JWT помощью метода validateJwtToken() из класса JWTProvider
             if (jwt != null && tokenProvider.validateJwtToken(jwt)) {
                 String username = tokenProvider.getUserNameFromJwtToken(jwt);
+                //проверяем User в BD
                 UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication
                         = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

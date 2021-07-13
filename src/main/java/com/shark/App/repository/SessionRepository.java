@@ -24,10 +24,9 @@ public class SessionRepository {
     public void saveSession(Session session) {
         sessionsRepository.add(session);
     }
-
+//chek session with token. Что бы случайно не было сессий с одинаковыми токенами
     public boolean checkSessionRepository(Session session) {
         for (Session session1 : sessionsRepository) {
-
 //            || session1.getEmail().equals(session.getEmail())
             if (session1.getToken().equals(session.getToken()) ) {
                 return false;

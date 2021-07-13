@@ -1,0 +1,110 @@
+openapi: 3.0.0
+info:
+  title: Verbo API
+  description: Verbo API
+  version: 1.0.0
+servers:
+  - url: ''
+    description: local server
+paths:
+  /login:
+    post:
+      description: Authorization method
+      requestBody:
+        description: Login and password hash
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  required: true
+                password:
+                  type: string
+                  required: true
+      responses:
+        '200':
+          description: Success authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+        '400':
+          description: Bad credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /signup:
+    post:
+      description: Registration method
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  required: true
+                email:
+                  type: string
+                  required: true
+                password:
+                  type: string
+                  required: true
+                nativeLanguage:
+                  type: string
+                  required: true
+                lerningLanguage:
+                  type: string
+                  required: true
+      responses:
+        '200':
+          description: Success registration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Signup'
+        '400':
+          description: Bad credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /logout:
+    post:
+      parameters:
+        - in: header
+          name: auth-token
+          schema:
+            type: string
+          required: true
+      description: Logout
+      responses:
+        '200':
+          description: Success logout
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message
+        id:
+          type: integer
+    Login:
+      type: object
+      properties:
+        auth-token:
+          type: string
+
+    Signup:
+      type: object
+      properties:
+        users-id:
+          type: integer

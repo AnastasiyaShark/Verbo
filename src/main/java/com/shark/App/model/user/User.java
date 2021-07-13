@@ -1,6 +1,7 @@
 package com.shark.App.model.user;
 
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -27,14 +28,20 @@ public class User {
     @Id
     //value will be automatically generated for that field (IDENTITY - generated values are unique)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     Integer id;
+    @NotNull
     String name;
+    @NotNull
     String password;
+    @NotNull
     String email;
     //many users can have one language
     @ManyToOne
+    @NotNull
     Language nativeLanguage;
     @ManyToOne
+    @NotNull
     Language learningLanguage1;
 
     //Can user learn 2 languages?
