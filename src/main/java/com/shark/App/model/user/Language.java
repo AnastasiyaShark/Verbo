@@ -19,5 +19,6 @@ public class Language {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     @Column(name = "language")
-    String name;
+    @Enumerated(EnumType.STRING)
+    LanguageE name;
 }
