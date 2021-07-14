@@ -1,13 +1,12 @@
 create sequence user_seq;
 create table users
 (
-    id                   int     not null primary key default nextval('user_seq'),
-    name                 varchar not null,
-    password             varchar not null,
-    email                varchar not null,
-    native_language_id   int,
-    learning_language_id int
---     learning_language2_id int
+    id                    int     not null primary key default nextval('user_seq'),
+    name                  varchar not null,
+    password              varchar not null,
+    email                 varchar not null,
+    native_language_id    int,
+    learning_language1_id int
 );
 comment on table users is 'пользователи';
 comment on column users.id is 'id в системе';
@@ -15,8 +14,8 @@ comment on column users.name is 'имя пользователя (nickname)';
 comment on column users.password is 'пароль пользователя';
 comment on column users.email is 'почта пользователя';
 comment on column users.native_language_id is 'родной язык пользователя';
-comment on column users.learning_language_id is 'изучаемый язык пользователя';
--- comment on column users.learning_language2_id is ' second изучаемый язык пользователя';
+comment on column users.learning_language1_id is 'изучаемый язык пользователя';
+
 
 
 create sequence language_seq;
