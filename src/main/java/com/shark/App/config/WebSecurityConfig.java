@@ -5,11 +5,15 @@ import com.shark.App.security.AuthEntryPointJwt;
 import com.shark.App.security.JwtAuthTokenFilter;
 import com.shark.App.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.security.web.access.intercept.*;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -22,8 +26,11 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true
+)
 @Configuration
-@EnableWebSecurity//позволяет Spring находить и автоматически применять класс к глобальной веб-безопасности.
+@EnableWebSecurity //позволяет Spring находить и автоматически применять класс к глобальной веб-безопасности.
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -35,7 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthEntryPointJwt unauthorizedHandler;
 
 //https://www.baeldung.com/spring-security-login#1-authentication-manager
-    @Override
+//    @Override
+    @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userDetailsServiceImpl)
