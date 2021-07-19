@@ -53,15 +53,17 @@ public class AuthService {
         }
         //сохраняем сессию
         sessionService.saveSession(newSession);
+        System.out.println(sessionService.getAll());
         return newSession.getToken();
     }
 
 
     public ResponseEntity logout(HttpServletRequest request) {
+
         String authHeader = request.getHeader("auth-token");
         String newAuthHeader = authHeader.replace("Bearer ", "");
         Session session = sessionService.getSessionByToken(newAuthHeader);
-        if (!sessionService.checkSessionRepository(session)){
+        if (sessionService.checkSessionRepository(session) || session.getToken() == null){
             throw new ErrorUnauthorized("Невозможно выйти! Сессия c данным токеном не существует.");
         }
         sessionService.deleteSession(session);
