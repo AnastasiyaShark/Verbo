@@ -24,7 +24,7 @@ public class SignupRequest {
                          @JsonProperty("password")String password,
                          @JsonProperty("email")String email,
                          @JsonProperty("nativeLanguage")String nativeLanguage,
-                         @JsonProperty("lerningLanguage")String learningLanguage1) {
+                         @JsonProperty("learningLanguage")String learningLanguage1) {
         this.name = name;
         this.password = password;
         this.email = email;
