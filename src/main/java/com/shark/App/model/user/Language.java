@@ -21,4 +21,5 @@ public class Language {
     @Column(name = "language")
     @Enumerated(EnumType.STRING)
     LanguageE name;
+
 }

@@ -1,6 +1,7 @@
 package com.shark.App.service.user;
 
 import com.shark.App.dto.UserDto;
+import com.shark.App.model.auth.SignupRequest;
 import com.shark.App.model.user.User;
 import com.shark.App.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,10 @@ public class UserServiceImpl implements UserService {
         this.factoryBean = factoryBean;
     }
 
-    @Override
-    public Integer createUser(UserDto userDto) {
-        User user = factoryBean.getObject().convert(userDto, User.class);
-        return userRepository.save(user).getId();
-    }
+//    @Override
+//    public Integer createUser(SignupRequest signupRequest) {
+//        User user = factoryBean.getObject().convert(userDto, User.class);
+//        return userRepository.save(user).getId();
+//    }
 
 }

@@ -5,6 +5,10 @@ import com.shark.App.exeption.ErrorInputData;
 import com.shark.App.exeption.ErrorUnauthorized;
 import com.shark.App.model.auth.SigningRequest;
 import com.shark.App.model.auth.Session;
+import com.shark.App.model.auth.SignupRequest;
+import com.shark.App.model.user.Language;
+import com.shark.App.model.user.User;
+import com.shark.App.repository.LanguageRepository;
 import com.shark.App.repository.UserRepository;
 import com.shark.App.security.JwtAuthTokenFilter;
 import com.shark.App.security.JwtProvider;
@@ -33,6 +37,7 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final JwtAuthTokenFilter jwtAuthTokenFilter;
     private final UserService userService;
+    private final LanguageRepository languageRepository;
 
 
     public String authenticateUser(SigningRequest loginRequest) {
@@ -63,7 +68,7 @@ public class AuthService {
         String authHeader = request.getHeader("auth-token");
         String newAuthHeader = authHeader.replace("Bearer ", "");
         Session session = sessionService.getSessionByToken(newAuthHeader);
-        if (sessionService.checkSessionRepository(session) || session.getToken() == null){
+        if (sessionService.checkSessionRepository(session) || session.getToken() == null) {
             throw new ErrorUnauthorized("Невозможно выйти! Сессия c данным токеном не существует.");
         }
         sessionService.deleteSession(session);
@@ -73,21 +78,29 @@ public class AuthService {
     }
 
 
-    public ResponseEntity registerUser(UserDto userDto) { //signUpRequest
-        if (userRepository.existsByName(userDto.getName())) {
-            throw new ErrorInputData(String.format("Error: Name %s is already taken!",userDto.getName()));
+    public ResponseEntity registerUser(SignupRequest signupRequest) { //signUpRequest
+        if (userRepository.existsByName(signupRequest.getName())) {
+            throw new ErrorInputData(String.format("Error: Name %s is already taken!", signupRequest.getName()));
         }
-        if (userRepository.existsByEmail(userDto.getEmail())) {
-            throw new ErrorInputData(String.format("Error: Email %s is already in use!",userDto.getEmail()));
+        if (userRepository.existsByEmail(signupRequest.getEmail())) {
+            throw new ErrorInputData(String.format("Error: Email %s is already in use!", signupRequest.getEmail()));
         }
-        if (userDto.getNativeLanguage().equals(userDto.getLearningLanguage1())){
+        if (signupRequest.getNativeLanguage().equals(signupRequest.getLearningLanguage1())) {
             throw new ErrorInputData("Error: Родной и изучаемый языки не могут быть одинаковые!");
         }
         // Create new user's account
-        userService.createUser(userDto);
+        Language nativeL = languageRepository.findByName(signupRequest.getNativeLanguage()).get();
+        Language learningL = languageRepository.findByName(signupRequest.getLearningLanguage1()).get();
+        User newUser = new User(signupRequest.getName(),
+                signupRequest.getPassword(),
+                signupRequest.getEmail(),
+                nativeL,
+                learningL);
+        userRepository.save(newUser).getId();
+//        userService.createUser(signupRequest);
+        System.out.println(userRepository.findUserByEmail(signupRequest.getEmail()));
         return ResponseEntity.ok().body("User registered successfully!");
     }
-
 
 
 }

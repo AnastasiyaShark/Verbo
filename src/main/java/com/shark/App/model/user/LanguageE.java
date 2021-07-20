@@ -1,10 +1,17 @@
 package com.shark.App.model.user;
 
 public enum LanguageE {
-    ENGLISH,
-    SWEDISH,
-    RUSSIAN;
+    ENGLISH ("ENGLISH"),
+    SWEDISH ("SWEDISH"),
+    RUSSIAN ("RUSSIAN");
 
-    LanguageE() {
+    private final String language;
+
+    LanguageE(String language) {
+        this.language = language;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 }

@@ -50,10 +50,10 @@ paths:
                 name:
                   type: string
                   required: true
-                email:
+                password:
                   type: string
                   required: true
-                password:
+                email:
                   type: string
                   required: true
                 nativeLanguage:

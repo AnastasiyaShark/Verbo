@@ -44,6 +44,15 @@ public class User {
     @NotNull
     Language learningLanguage1;
 
+    public User(String name, String password, String email, Language nativeLanguage, Language learningLanguage1) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.nativeLanguage = nativeLanguage;
+        this.learningLanguage1 = learningLanguage1;
+    }
+
+
     //Can user learn 2 languages?
     //Language learningLanguage2;
 }
