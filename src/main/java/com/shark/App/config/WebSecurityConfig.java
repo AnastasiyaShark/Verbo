@@ -5,12 +5,9 @@ import com.shark.App.security.AuthEntryPointJwt;
 import com.shark.App.security.JwtAuthTokenFilter;
 import com.shark.App.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.security.web.access.intercept.*;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -41,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
-//https://www.baeldung.com/spring-security-login#1-authentication-manager
+    //https://www.baeldung.com/spring-security-login#1-authentication-manager
 //    @Override
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -66,13 +63,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-//https://www.baeldung.com/spring-security-login#3-configuration-for-form-login
+    //https://www.baeldung.com/spring-security-login#3-configuration-for-form-login
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/login","/signup").permitAll()
+                .antMatchers("/login", "/signup").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().disable()
@@ -87,7 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:8080");
+        config.addAllowedOrigin("https://localhost:8080");
         //можно позже добавить другие клиентские адреса (но не *!)
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

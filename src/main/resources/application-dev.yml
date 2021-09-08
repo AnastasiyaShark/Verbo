@@ -19,3 +19,22 @@ spring:
   sql:
     init:
       platform: postgres
+server:
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:keystore/verbo_keys.p12
+    key-store-password: Defender13
+    key-alias: Verbo
+    enabled: true
+
+
+
+#на всякий случай
+#server:
+#  ssl:
+#    key-store-type: JKS
+#    key-store:  classpath:keystore/verbo_keys.jks
+#    key-store-password: Defender13
+#    key-alias: Verbo
+#    enabled: true
+
