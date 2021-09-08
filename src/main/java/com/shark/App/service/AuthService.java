@@ -42,6 +42,7 @@ public class AuthService {
 
     public String authenticateUser(SigningRequest loginRequest) {
         //конвертирует user'a
+        System.out.printf("Login (%s) Password (%s)", loginRequest.getLogin(), loginRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getLogin(),
