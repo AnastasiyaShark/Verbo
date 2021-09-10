@@ -1,6 +1,5 @@
 package com.shark.App.dto;
 
-import com.shark.App.model.user.Language;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +21,9 @@ public class UserDto {
     @NotNull
     private String email;
     @NotNull
-    private Language nativeLanguage;
+    private Integer nativeLanguageId;
     @NotNull
-    private Language learningLanguage1;
+    private Integer learningLanguage1Id;
+
+
 }

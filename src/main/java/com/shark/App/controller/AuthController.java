@@ -2,7 +2,6 @@ package com.shark.App.controller;
 
 import com.shark.App.dto.UserDto;
 import com.shark.App.model.auth.SigningRequest;
-import com.shark.App.model.auth.SignupRequest;
 import com.shark.App.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity registerUser( @RequestBody SignupRequest signupRequest) {
-     return  authService.registerUser(signupRequest);
+    public ResponseEntity registerUser(@RequestBody UserDto signupRequest) {
+        return authService.registerUser(signupRequest);
     }
 }

@@ -5,7 +5,6 @@ import com.shark.App.exeption.ErrorInputData;
 import com.shark.App.exeption.ErrorUnauthorized;
 import com.shark.App.model.auth.SigningRequest;
 import com.shark.App.model.auth.Session;
-import com.shark.App.model.auth.SignupRequest;
 import com.shark.App.model.user.Language;
 import com.shark.App.model.user.User;
 import com.shark.App.repository.LanguageRepository;
@@ -14,6 +13,7 @@ import com.shark.App.security.JwtAuthTokenFilter;
 import com.shark.App.security.JwtProvider;
 import com.shark.App.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,6 +38,8 @@ public class AuthService {
     private final JwtAuthTokenFilter jwtAuthTokenFilter;
     private final UserService userService;
     private final LanguageRepository languageRepository;
+
+    private final ConversionService conversionService;
 
 
     public String authenticateUser(SigningRequest loginRequest) {
@@ -79,27 +81,25 @@ public class AuthService {
     }
 
 
-    public ResponseEntity registerUser(SignupRequest signupRequest) { //signUpRequest
-        if (userRepository.existsByName(signupRequest.getName())) {
-            throw new ErrorInputData(String.format("Error: Name %s is already taken!", signupRequest.getName()));
+    public ResponseEntity registerUser(UserDto userDto) {
+
+        System.out.println(userDto);
+
+        if (userRepository.existsByName(userDto.getName())) {
+            throw new ErrorInputData(String.format("Error: Name %s is already taken!", userDto.getName()));
         }
-        if (userRepository.existsByEmail(signupRequest.getEmail())) {
-            throw new ErrorInputData(String.format("Error: Email %s is already in use!", signupRequest.getEmail()));
+        if (userRepository.existsByEmail(userDto.getEmail())) {
+            throw new ErrorInputData(String.format("Error: Email %s is already in use!", userDto.getEmail()));
         }
-        if (signupRequest.getNativeLanguage().equals(signupRequest.getLearningLanguage1())) {
+        if (userDto.getNativeLanguageId().equals(userDto.getLearningLanguage1Id())) {
             throw new ErrorInputData("Error: Родной и изучаемый языки не могут быть одинаковые!");
         }
         // Create new user's account
-        Language nativeL = languageRepository.findByName(signupRequest.getNativeLanguage()).get();
-        Language learningL = languageRepository.findByName(signupRequest.getLearningLanguage1()).get();
-        User newUser = new User(signupRequest.getName(),
-                signupRequest.getPassword(),
-                signupRequest.getEmail(),
-                nativeL,
-                learningL);
-        userRepository.save(newUser).getId();
-//        userService.createUser(signupRequest);
-        System.out.println(userRepository.findUserByEmail(signupRequest.getEmail()));
+        User newUser = conversionService.convert(userDto, User.class);
+        newUser = userRepository.save(newUser);
+
+        System.out.println(newUser);
+
         return ResponseEntity.ok().body("User registered successfully!");
     }
 

@@ -1,25 +1,17 @@
 package com.shark.App.service.user;
 
-import com.shark.App.dto.UserDto;
-import com.shark.App.model.auth.SignupRequest;
-import com.shark.App.model.user.User;
 import com.shark.App.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ConversionServiceFactoryBean;
-
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final ConversionServiceFactoryBean factoryBean;
+    private final ConversionService conversionService;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, ConversionServiceFactoryBean factoryBean) {
-        this.userRepository = userRepository;
-        this.factoryBean = factoryBean;
-    }
 
 //    @Override
 //    public Integer createUser(SignupRequest signupRequest) {
