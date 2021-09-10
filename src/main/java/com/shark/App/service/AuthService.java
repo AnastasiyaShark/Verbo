@@ -5,7 +5,6 @@ import com.shark.App.exeption.ErrorInputData;
 import com.shark.App.exeption.ErrorUnauthorized;
 import com.shark.App.model.auth.SigningRequest;
 import com.shark.App.model.auth.Session;
-import com.shark.App.model.user.Language;
 import com.shark.App.model.user.User;
 import com.shark.App.repository.LanguageRepository;
 import com.shark.App.repository.UserRepository;
@@ -44,17 +43,17 @@ public class AuthService {
 
     public String authenticateUser(SigningRequest loginRequest) {
         //конвертирует user'a
-        System.out.printf("Login (%s) Password (%s)", loginRequest.getLogin(), loginRequest.getPassword());
+        System.out.printf("Login (%s) Password (%s)", loginRequest.getEmail(), loginRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getLogin(),
+                        loginRequest.getEmail(),
                         loginRequest.getPassword()
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //получаем токен
         String jwt = jwtProvider.generateJwtToken(authentication);
-        Session newSession = new Session(loginRequest.getLogin(), jwt);
+        Session newSession = new Session(loginRequest.getEmail(), jwt);
         //проверяем,есть ли уже такая сессия (token)
         if (!sessionService.checkSessionRepository(newSession)) {
             throw new ErrorInputData("Невозможно войти! Сессия c данным токеном уже существует. Please, try again!");
@@ -96,9 +95,9 @@ public class AuthService {
         }
         // Create new user's account
         User newUser = conversionService.convert(userDto, User.class);
+        assert newUser != null;
+        newUser.setPassword(encoder.encode(newUser.getPassword()));
         newUser = userRepository.save(newUser);
-
-        System.out.println(newUser);
 
         return ResponseEntity.ok().body("User registered successfully!");
     }

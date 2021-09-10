@@ -8,14 +8,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SigningRequest {
-    private String login;
+    private String email;
     private String password;
 
 
     @JsonCreator
-    public SigningRequest(@JsonProperty("login") String login,
+    public SigningRequest(@JsonProperty("email") String email,
                           @JsonProperty("password") String password) {
-        this.login = login;
+        this.email = email;
         this.password = password;
     }
 
