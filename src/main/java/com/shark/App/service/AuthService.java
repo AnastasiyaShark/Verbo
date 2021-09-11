@@ -3,8 +3,8 @@ package com.shark.App.service;
 import com.shark.App.dto.UserDto;
 import com.shark.App.exeption.ErrorInputData;
 import com.shark.App.exeption.ErrorUnauthorized;
-import com.shark.App.model.auth.SigningRequest;
 import com.shark.App.model.auth.Session;
+import com.shark.App.model.auth.SigningRequest;
 import com.shark.App.model.user.User;
 import com.shark.App.repository.LanguageRepository;
 import com.shark.App.repository.UserRepository;
@@ -80,26 +80,36 @@ public class AuthService {
     }
 
 
-    public ResponseEntity registerUser(UserDto userDto) {
-
-        System.out.println(userDto);
-
-        if (userRepository.existsByName(userDto.getName())) {
-            throw new ErrorInputData(String.format("Error: Name %s is already taken!", userDto.getName()));
-        }
-        if (userRepository.existsByEmail(userDto.getEmail())) {
-            throw new ErrorInputData(String.format("Error: Email %s is already in use!", userDto.getEmail()));
-        }
-        if (userDto.getNativeLanguageId().equals(userDto.getLearningLanguage1Id())) {
-            throw new ErrorInputData("Error: Родной и изучаемый языки не могут быть одинаковые!");
+    public UserDto registerUser(UserDto userDto) {
+        UserDto checkUserDto = checkUserDto(userDto);
+        if (checkUserDto.getName() == null || checkUserDto.getPassword() == null ||
+                checkUserDto.getNativeLanguageId() == null || checkUserDto.getLearningLanguage1Id() == null) {
+            return checkUserDto;
         }
         // Create new user's account
         User newUser = conversionService.convert(userDto, User.class);
         assert newUser != null;
         newUser.setPassword(encoder.encode(newUser.getPassword()));
         newUser = userRepository.save(newUser);
+//        ResponseEntity.ok().body("User registered successfully!")
+        return conversionService.convert(newUser, UserDto.class);
+    }
 
-        return ResponseEntity.ok().body("User registered successfully!");
+    public UserDto checkUserDto(UserDto userDto) {
+        if (userRepository.existsByName(userDto.getName())) {
+            userDto.setName(null);
+//            throw new ErrorInputData(String.format("Error: Name %s is already taken!", userDto.getName()));
+        }
+        if (userDto.getPassword().length() < 4) {
+            userDto.setPassword(null);
+//            throw new ErrorInputData("Error: Password must be min 4 taken!");
+        }
+        if (userDto.getNativeLanguageId().equals(userDto.getLearningLanguage1Id())) {
+            userDto.setNativeLanguageId(null);
+            userDto.setLearningLanguage1Id(null);
+//            throw new ErrorInputData("Error: Родной и изучаемый языки не могут быть одинаковые!");
+        }
+        return userDto;
     }
 
 
